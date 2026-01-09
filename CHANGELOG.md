@@ -14,6 +14,14 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Merkle chunking para documentos grandes
 - HNSW opcional para Trajectory Matching
 
+## [0.1.1] - 2026-01-08
+### Melhorado
+- **Documentação completa**: cobertura aumentada significativamente
+- Adicionados exemplos de código executáveis para todas as funções públicas
+- Documentação detalhada para `SignedFact`, `seal_value`, `verify_seal`, `canonize`
+- Documentação completa para tipos de erro (`CanonicalError`, `SealError`, `VerifyError`)
+- Melhorias na documentação do `docs.rs` com exemplos práticos
+
 ## [0.1.0] - 2026-01-08
 ### Adicionado
 - Canonicalização JSON✯Atomic (Same Semantics = Same Bytes = Same Hash)
