@@ -82,17 +82,16 @@ impl SignedFact {
     /// ```rust
     /// use ed25519_dalek::SigningKey;
     /// use json_atomic::seal_value;
-    /// use rand::rngs::OsRng;
     /// use serde::Serialize;
     ///
     /// #[derive(Serialize)]
     /// struct Data { x: u32 }
     ///
-    /// let sk = SigningKey::generate(&mut OsRng);
-    /// let signed = seal_value(&Data { x: 1 }, &sk)?;
+    /// // Chave de exemplo (em produção, derive de seed/keystore)
+    /// let sk = SigningKey::from_bytes(&[0u8; 32]);
+    /// let signed = seal_value(&Data { x: 1 }, &sk).unwrap();
     /// let hex = signed.cid_hex();
     /// assert_eq!(hex.len(), 64); // 32 bytes = 64 hex chars
-    /// # Ok::<(), json_atomic::SealError>(())
     /// ```
     pub fn cid_hex(&self) -> String {
         self.cid.encode_hex::<String>()
